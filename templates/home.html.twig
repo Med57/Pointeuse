@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<ul> Pointage actuellement enregistré
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Jour</th>
+                <th scope="col">Poste</th>
+                <th scope="col">Arrivé</th>
+                <th scope="col">Arrivé Pointé</th>
+                <th scope="col">Depart</th>
+                <th scope="col">Départ Pointé</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for pointage in allpointage %} 
+            <tr>
+                <!-- <th scope="row">1</th> -->
+                <td>{{ pointage.getJour().format('d-m-Y') }}</td>
+                <td>{{ pointage.getPoste()}}</td>
+                {% if pointage.getArrive() is empty %}
+                    <td> Pas de pointage enregistré </td>
+                {% else %}
+                    <td>{{ pointage.getArrive().format('G:i')}}</td>
+                {% endif %}
+                {% if pointage.getArrivepointage() is empty %}
+                   <td> Pas de pointage enregistré </td>
+                {% else %}
+                    <td>{{ pointage.getArrivepointage().format('G:i')}}</td>
+                {% endif %}
+                {% if pointage.getDepart() is empty %}
+                    <td> Pas de pointage enregistré </td>
+                {% else %}
+                    <td>{{ pointage.getDepart().format('G:i')}}</td>
+                {% endif %}
+                {% if pointage.getDepartpointage() is empty %}
+                    <td> Pas de pointage enregistré </td>
+                {% else %}
+                    <td>{{ pointage.getDepartpointage().format('G:i')}}</td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+</table>
+</ul>
+{% endblock %}

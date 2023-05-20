@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block body %} 
+<div class="container text-center">
+    <div class="row justify-content-md-center"> Badgeuse </div>
+        {% for message in app.flashes('notice') %} 
+            <div class="flash-notice">
+            {{ message }}
+        {% endfor %}
+        <iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=1&bgcolor=%23ffffff&ctz=Europe%2FLuxembourg&showPrint=0&showTitle=0&showTz=0&showTabs=1&showCalendars=0&src=bXIubWVkaHkuZGFhc0BnbWFpbC5jb20&src=YWRkcmVzc2Jvb2sjY29udGFjdHNAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&src=YmI4MmIwOTg3NDI0MDYyODVjMmI1ZTc3M2JmMmU3Mjg3MGZmNjE5MzdiZDMzNGYzODMyNzg0YmIwZTFkOWY1Y0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=ZnIuZnJlbmNoI2hvbGlkYXlAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&color=%237986CB&color=%2333B679&color=%237986CB&color=%230B8043" style="border:solid 1px #777" width="1400" height="800" frameborder="0" scrolling="no"></iframe>
+    </div>
+</div>
+{% endblock %}
