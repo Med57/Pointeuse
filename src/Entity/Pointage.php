@@ -47,6 +47,17 @@ class Pointage
      */
     private $departpointage;
 
+    /**
+     * @ORM\Column(type="time", nullable=true)
+     */
+    private $heure;
+
+    /**
+     * @ORM\Column(type="time", nullable=true)
+     */
+    private $heuresup;
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -123,4 +134,29 @@ class Pointage
 
         return $this;
     }
+
+    public function getHeure(): ?\DateTimeInterface
+    {
+        return $this->heure;
+    }
+
+    public function setHeure(?\DateTimeInterface $heure): self
+    {
+        $this->heure = $heure;
+
+        return $this;
+    }
+
+    public function getHeuresup(): ?\DateTimeInterface
+    {
+        return $this->heuresup;
+    }
+
+    public function setHeuresup(?\DateTimeInterface $heuresup): self
+    {
+        $this->heuresup = $heuresup;
+
+        return $this;
+    }
+
 }

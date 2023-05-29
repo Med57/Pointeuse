@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Pointage index{% endblock %}
+
+{% block body %}
+<div class = "container text-center">
+    <h1>Pointage index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Jour</th>
+                <th>Poste</th>
+                <th>Arrive</th>
+                <th>Arrive pointage</th>
+                <th>Depart</th>
+                <th>Depart pointage</th>
+                <th>Heure</th>
+                <th>Heure sup</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for pointage in pointages %}
+            <tr>
+                <td>{{ pointage.jour ? pointage.jour|date('d-m-Y') : '' }}</td>
+                <td>{{ pointage.poste }}</td>
+                <td>{{ pointage.arrive ? pointage.arrive|date('H:i') : '' }}</td>
+                <td>{{ pointage.arrivepointage ? pointage.arrivepointage|date('H:i') : '' }}</td>
+                <td>{{ pointage.depart ? pointage.depart|date('H:i') : '' }}</td>
+                <td>{{ pointage.departpointage ? pointage.departpointage|date('H:i') : '' }}</td>
+                <td>{{ pointage.heure ? pointage.heure.format('%y year(s), %m month(s), %d day(s)') : '' }}</td>
+                <td>{{ pointage.heuresup ? pointage.heuresup.format('%y year(s), %m month(s), %d day(s)') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_pointage_show', {'id': pointage.id}) }}">Voir</a>
+                    <a href="{{ path('app_pointage_edit', {'id': pointage.id}) }}">Editer</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ path('app_pointage_new') }}">Creation d'un pointage</a>
+</div>
+
+{% endblock %}

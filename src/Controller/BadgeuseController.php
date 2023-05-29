@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace App\Controller;
 
@@ -22,7 +22,7 @@ class BadgeuseController extends AbstractController
     public function index(PointageRepository $pointageRepository): Response
     {
         $allpointage = $pointageRepository->findAll();
-        //dd(new \DateTime());
+        
         return $this->render('home.html.twig', [
             'allpointage' => $allpointage 
         ]);
@@ -37,7 +37,7 @@ class BadgeuseController extends AbstractController
     }
 
     /**
-     * @Route("/pointage", name="app_new_pointage")
+     * @Route("/badgeuse", name="app_new_pointage")
      */
     public function new(Request $request, PointageRepository $pointageRepository): Response
     {
@@ -89,7 +89,13 @@ class BadgeuseController extends AbstractController
                 $pointage->setDepartpointage(new \DateTime());
                 $pointage->setDepartpointage($pointage->getDepartpointage()->setTime(6,00));
             }
-            
+
+            // Gestion des heures de base et heure sup
+            // Fonctionne mais a regler sur les bonnes heure 
+            // a faire : Gerer les heure de base et les heure supp.
+
+            $heure = $pointage->getArrivepointage()->diff($pointage->getDepartpointage());
+            dd($heure);
 
             if($pointagedujour !== null){
                 $pointagedujour->setDepart($pointage->getDepart());
@@ -108,26 +114,5 @@ class BadgeuseController extends AbstractController
         ]);
     }
     
-    /**
-     * @Route("/edit", name="app_edit_pointage")
-     */
-    public function edit(Request $request, PointageRepository $pointageRepository): Response
-    {
-        $pointage = new Pointage();
-        $toutlespointages = $pointageRepository->findAll();
-
-        $form = $this->createForm(EditpointageType::class, $pointage);
-        $form->handleRequest($request);
-        
-        if ($form->isSubmitted() && $form->isValid()) {
-            $pointageRepository->add($pointage, true);
-            
-            return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
-        }
-        
-        return $this->renderForm('edit.html.twig', [
-            'pointage' => $pointage,
-            'form' => $form,
-        ]);
-    }
+    
 }
