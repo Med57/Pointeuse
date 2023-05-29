@@ -65,16 +65,21 @@ class BadgeuseController extends AbstractController
                 $pointage->setArrivepointage(new \DateTime());
                 $pointage->setArrivepointage($pointage->getArrivepointage()->setTime(6,00));
 
-                $pointage->setDepartpointage(new \DateTime());
-                $pointage->setDepartpointage($pointage->getDepartpointage()->setTime(14,00));
+                // $pointage->setDepartpointage(new \DateTime());
+                // $depart = new \DateTime();
+                // $depart = $depart->setTime(14,05);
+                // if($pointage->getDepart() < $depart){
+                //     $
+                // }
+                // $pointage->setDepartpointage($pointage->getDepartpointage()->setTime(14,00));
+                
+                
             }
             elseif($pointage->getPoste() === "A-M")
             {
                 $pointage->setArrivepointage(new \DateTime());
                 $pointage->setArrivepointage($pointage->getArrivepointage()->setTime(14,00));
 
-                $pointage->setDepartpointage(new \DateTime());
-                $pointage->setDepartpointage($pointage->getDepartpointage()->setTime(22,00));
             }
             elseif($pointage->getPoste() === "Nuit")
             { 
@@ -90,18 +95,35 @@ class BadgeuseController extends AbstractController
                 $pointage->setDepartpointage($pointage->getDepartpointage()->setTime(6,00));
             }
 
-            // Gestion des heures de base et heure sup
-            // Fonctionne mais a regler sur les bonnes heure 
-            // a faire : Gerer les heure de base et les heure supp.
-
-            $heure = $pointage->getArrivepointage()->diff($pointage->getDepartpointage());
-            dd($heure);
+            
 
             if($pointagedujour !== null){
                 $pointagedujour->setDepart($pointage->getDepart());
                 $pointage = $pointagedujour;
 
             }
+
+            // Gestion des heures de base et heure sup
+            // Fonctionne mais a regler sur les bonnes heure 
+            // a faire : Gerer les heure de base et les heure supp.
+
+            // $heure = $pointage->getArrivepointage()->diff($pointage->getDepartpointage());
+
+            $heureBaseTheorique = new DateInterval('PT8H');
+            
+            dd($pointage);
+            
+
+            $departTheorique = $pointage->getArrive()->add($heureBaseTheorique);
+            
+            
+
+            if($departTheorique > $pointage->getDepart()){
+                dd('test');
+            }
+
+           
+
 
             $pointageRepository->add($pointage, true);
             

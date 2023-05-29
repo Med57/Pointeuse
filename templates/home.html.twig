@@ -12,6 +12,8 @@
                 <th scope="col">Arrivé Pointé</th>
                 <th scope="col">Depart</th>
                 <th scope="col">Départ Pointé</th>
+                <th scope="col">Heure Base </th>
+                <th scope="col">Heure Sup </th>
             </tr>
         </thead>
         <tbody>
@@ -39,6 +41,16 @@
                     <td> Pas de pointage enregistré </td>
                 {% else %}
                     <td>{{ pointage.getDepartpointage().format('G:i')}}</td>
+                {% endif %}
+                {% if pointage.getHeure() is empty %}
+                    <td> 0 </td>
+                {% else %}
+                    <td>{{ pointage.getHeure()}}</td>
+                {% endif %}
+                {% if pointage.getHeuresup() is empty %}
+                    <td> 0 </td>
+                {% else %}
+                    <td>{{ pointage.getHeuresup()}}</td>
                 {% endif %}
             </tr>
         {% endfor %}
