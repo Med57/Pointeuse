@@ -59,42 +59,55 @@ class BadgeuseController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             
-            // Gestion des heure d'arrive pointé et depart pointé
+            // Gestion des heure d'arrive et d'arrivé pointé.
 
             if($pointage->getPoste() === "Matin"){
 
                 $pointage->setArrivepointage(new \DateTime());
                 $pointage->setArrivepointage($pointage->getArrivepointage()->setTime(6,00));
+                // dd($pointage);
 
-                $pointage->setDepartpointage(new \DateTime());
-                $pointage->setDepartpointage($pointage->getDepartpointage()->setTime(14,00));
+                if($pointage->getDepart() !== null) {
+                    
+                    $pointage->setDepartpointage(new \DateTime());
+                    $pointage->setDepartpointage($pointage->getDepartpointage()->setTime(14,00));
+                    
+                }   
                 
             }
             elseif($pointage->getPoste() === "A-M")
             {
-
+ 
                 $pointage->setArrivepointage(new \DateTime());
                 $pointage->setArrivepointage($pointage->getArrivepointage()->setTime(14,00));
 
-                $pointage->setDepartpointage(new \DateTime());
-                $pointage->setDepartpointage($pointage->getDepartpointage()->setTime(22,00));
+                // if($pointage->getDepart() !== null){
+
+                //     $pointage->setDepartpointage(new \DateTime());
+                //     $pointage->setDepartpointage($pointage->getDepartpointage()->setTime(22,00));
+
+                // }
 
             }
             elseif($pointage->getPoste() === "Nuit")
             { 
 
-                $currentDate = new \DateTime();
-                $yesterdayTime = $currentDate->sub(new DateInterval('P1D'));
-                $pointagedujour = $pointageRepository->findOneByJour($yesterdayTime);
-
                 $pointage->setArrivepointage(new \DateTime());
                 $pointage->setArrivepointage($pointage->getArrivepointage()->setTime(22,00));
 
-                $pointage->setDepartpointage(new \DateTime());
-                $pointage->setDepartpointage($pointage->getDepartpointage()->setTime(6,00));
+                if($pointage->getDepart() !== null) {
+
+                    $currentDate = new \DateTime();
+                    $yesterdayTime = $currentDate->sub(new DateInterval('P1D'));
+                    $pointagedujour = $pointageRepository->findOneByJour($yesterdayTime);
+
+                    // $pointage->setDepartpointage(new \DateTime());
+                    // $pointage->setDepartpointage($pointage->getDepartpointage()->setTime(6,00));
+
+                }
             }
 
-            
+            // Gestion du poste de nuit : Recuperation du jour precedent dans la base de donner pour update l'heure de depart.
 
             if($pointagedujour !== null){
                 $pointagedujour->setDepart($pointage->getDepart());
@@ -103,27 +116,20 @@ class BadgeuseController extends AbstractController
             }
 
             // Gestion des heures de base et heure sup
-            // Fonctionne mais a regler sur les bonnes heure 
            
             if($pointage->getDepart() !== null) {
-                $heure = $pointage->getArrivepointage()->diff($pointage->getDepart());
-                dd(floatval($heure->format('%h.%i')));
+                $heureInterval = $pointage->getArrivepointage()->diff($pointage->getDepart());
+                $heure = floatval($heureInterval->format('%h.%i'));
 
-                // Regler les heure de depart et depart pointé en cas de depart 
-
-                // Manque plus que la gestion des heures supp 
-
-                
-
+                if($heure > 8){
+                    $pointage->setHeure(8);
+                    $pointage->setHeuresup($heure - 8);
+                }
+                else{
+                    $pointage->setHeure($heure);
+                }  
 
             }       
-            
-            // if($heure->h > 8){
-            //     $pointage->setHeure(8); 
-            //     $pointage->setHeuresup($heure->h - 8);
-            // }
-            // $pointage->setHeure($heure->h); 
-            
 
             $pointageRepository->add($pointage, true);
             

@@ -48,15 +48,14 @@ class Pointage
     private $departpointage;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="float", nullable=true)
      */
     private $heure;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="float", nullable=true)
      */
     private $heuresup;
-
 
     public function getId(): ?int
     {
@@ -135,24 +134,24 @@ class Pointage
         return $this;
     }
 
-    public function getHeure(): ?int
+    public function getHeure(): ?float
     {
         return $this->heure;
     }
 
-    public function setHeure(?int $heure): self
+    public function setHeure(?float $heure): self
     {
         $this->heure = $heure;
 
         return $this;
     }
 
-    public function getHeuresup(): ?int
+    public function getHeuresup(): ?float
     {
         return $this->heuresup;
     }
 
-    public function setHeuresup(?int $heuresup): self
+    public function setHeuresup(?float $heuresup): self
     {
         $this->heuresup = $heuresup;
 
